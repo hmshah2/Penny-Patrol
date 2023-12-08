@@ -47,7 +47,7 @@ const getAllUsers = async (req, res) => {
 }
 
 // GET a user
-const getUser = async (req, res) => {
+const getSingleUser = async (req, res) => {
     var { id } = req.params;
 
     // check valid id
@@ -58,6 +58,7 @@ const getUser = async (req, res) => {
         })
     }
 
+    // select parameter
     var { select } = req.query;
     select = select ? JSON.parse(select) : {};
 
@@ -194,7 +195,7 @@ module.exports = {
     loginUser,
     signupUser,
     getAllUsers,
-    getUser,
+    getSingleUser,
     updateUser,
     deleteUser
 }

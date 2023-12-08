@@ -1,7 +1,7 @@
 const express = require("express");
 
 // user controller
-const { loginUser, signupUser, getAllUsers, getUser, updateUser, deleteUser } = require("../controllers/userController");
+const { loginUser, signupUser, getAllUsers, getSingleUser, updateUser, deleteUser } = require("../controllers/userController");
 
 const router = express.Router();
 
@@ -15,7 +15,7 @@ router.post("/signup", signupUser);
 router.get("/", getAllUsers);
 
 // GET a user
-router.get("/:id", getUser);
+router.get("/:id", getSingleUser);
 
 // UPDATE a user
 router.put("/:id", updateUser);

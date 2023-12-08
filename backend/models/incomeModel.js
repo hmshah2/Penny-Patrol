@@ -18,11 +18,11 @@ const incomeSchema = new Schema({
         type: Date,
         required: true
     },
-    user: {
-        type: Schema.Types.ObjectId, 
-        ref: 'User',
-        required: true
-    },
+    // user: {
+    //     type: Schema.Types.ObjectId, 
+    //     ref: 'User',
+    //     required: true
+    // },
     dateCreated: {
         type: Date,
         default: Date.now
