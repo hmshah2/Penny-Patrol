@@ -7,12 +7,12 @@ const budgetSchema = new Schema({
         type: Number,
         required: true
     },
-    month: {
-        type: String, 
+    startDate: {
+        type: Date, 
         required: true
     },
-    week: {
-        type: String, 
+    endDate: {
+        type: Date, 
         required: true
     },
     // user: {
