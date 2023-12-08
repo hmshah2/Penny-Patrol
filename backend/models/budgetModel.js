@@ -15,10 +15,14 @@ const budgetSchema = new Schema({
         type: String, 
         required: true
     },
-    user_id: {
+    user: {
         type: Schema.Types.ObjectId, 
         ref: 'User',
         required: true
+    },
+    dateCreated: {
+        type: Date,
+        default: Date.now
     }
 }); 
 
