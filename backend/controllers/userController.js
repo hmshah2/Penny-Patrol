@@ -9,7 +9,20 @@ const mongoose = require('mongoose');
 
 // login user
 const loginUser = async (req, res) => {
-    res.json({ message: 'login user' });
+    const { nameOrEmail, password } = req.body;
+
+    try {
+        const user = await User.login(nameOrEmail, password);
+        res.status(200).json({
+            message: "User Logged In Successfully",
+            data: user
+        })
+    } catch (error) {
+        res.status(400).json({
+            message: "Bad Request",
+            data: error.message
+        })
+    }
 }
 
 // signup user
@@ -19,7 +32,7 @@ const signupUser = async (req, res) => {
     try {
         const user = await User.signup(name, email, password);
         res.status(201).json({
-            message: "User Created Successfully",
+            message: "User Created Successfully ",
             data: user
         })
     } catch (error) {
@@ -111,7 +124,7 @@ const updateUser = async (req, res) => {
     if (!validator.isEmail(email)) {
         return res.status(400).json({
             message: "Email is invalid",
-            data: {}
+            data: {name, email, password}
         })
     }
 
