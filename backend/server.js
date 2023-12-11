@@ -20,7 +20,7 @@ app.use(cors());
 var port = process.env.PORT || 4000;
 
 // connect to mongodb & listen for requests
-mongoose.connect("mongodb+srv://penny-patrol:cs409final@penny-patrol.8zbizpz.mongodb.net/?retryWrites=true&w=majority")
+mongoose.connect(process.env.MONGO_URL)
     .then(() => {
         // app listen for requests on port 4000
         app.listen(port, () => {

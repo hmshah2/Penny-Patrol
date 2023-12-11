@@ -32,7 +32,7 @@ const signupUser = async (req, res) => {
     try {
         const user = await User.signup(name, email, password);
         res.status(201).json({
-            message: "User Created Successfully ",
+            message: "User Created Successfully",
             data: user
         })
     } catch (error) {
