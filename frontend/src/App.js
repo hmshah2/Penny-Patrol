@@ -1,19 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import LoginForm from './components/LoginForm/LoginForm';
 import SignupForm from './components/SignupForm/SignupForm';
 import Toast from './components/toast/toast';
+import PieChart from './components/PieChart/PieChart';
+import Header from './components/Header/Header';
+import EmptyPage from './components/EmptyPage/EmptyPage';
 
 function App() {
-  const [showLogin, setShowLogin] = React.useState(false);
-  const [showSignup, setShowSignup] = React.useState(false);
-  const [signedIn, setSignedIn] = React.useState(false);
-  // toasts
-  const [showToast, setShowToast] = React.useState(false);
-  const [toastMessage, setToastMessage] = React.useState('');
-  const [toastType, setToastType] = React.useState('');
+  const [showLogin, setShowLogin] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
+  const [signedIn, setSignedIn] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastType, setToastType] = useState('');
+  const [userId] = useState(null);
+  const [activeNav, setActiveNav] = useState('Financial Analysis');
 
-  React.useEffect(() => {
+  useEffect(() => {
     let timer;
     if (showToast) {
       timer = setTimeout(() => {
@@ -23,49 +28,60 @@ function App() {
     return () => clearTimeout(timer);
   }, [showToast]);
 
+  const handleSignedIn = () => {
+    setSignedIn(true);
+    setShowToast(true);
+    setToastType('success');
+    setToastMessage('Login success!');
+    setShowLogin(false);  
+  };
+
   return (
-    <div className="App">
-      {signedIn ? 
-        <button onClick={() => setSignedIn(false)}>Log Out</button> :
-        <button onClick={() => setShowLogin(true)}>Log In</button>
-      }
-      {showLogin && 
-        (showSignup ? 
-          <SignupForm 
-            onBackdropClick={() => {setShowLogin(false); setShowSignup(false)}} 
-            toggleSignup={() => setShowSignup(false)} 
-            onSignedIn={() => {
-              setSignedIn(true);
-              setShowToast(true);
-              setToastType('success');
-              setToastMessage('Sign up success!');
-            }} 
-            onError={() => {
-              setShowToast(true);
-              setToastType('error');
-              setToastMessage('Sign up failed!');
-            }}
-          /> 
-          : 
-          <LoginForm 
-            onBackdropClick={() => setShowLogin(false)} 
-            toggleSignup={() => setShowSignup(true)} 
-            onSignedIn={() => {
-              setSignedIn(true);
-              setShowToast(true);
-              setToastType('success');
-              setToastMessage('Login success!');
-            }} 
-            onError={() => {
-              setShowToast(true);
-              setToastType('error');
-              setToastMessage('Login failed!');
-            }}
-          />
-        )
-      }
-      <Toast type={toastType} message={toastMessage} isVisible={showToast} />
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <Header activeNav={activeNav} setActiveNav={setActiveNav}/>
+        <Routes>
+          <Route path="/purchases" element={<EmptyPage title="Purchases" />} />
+          <Route path="/spending-log" element={<EmptyPage title="Spending Log" />} />
+          <Route path="/pie-chart" element={<PieChart userId={userId} />} />
+          <Route path="/" element={
+            <div>
+              {signedIn ? 
+                <button onClick={() => setSignedIn(false)}>Log Out</button> :
+                <button onClick={() => setShowLogin(true)}>Log In</button>
+              }
+              {showLogin && 
+                (showSignup ? 
+                  <SignupForm 
+                    onBackdropClick={() => setShowLogin(false)} 
+                    toggleSignup={() => setShowSignup(false)} 
+                    onSignedIn={handleSignedIn}
+                    onError={() => {
+                      setShowToast(true);
+                      setToastType('error');
+                      setToastMessage('Sign up failed!');
+                    }}
+                  /> 
+                  : 
+                  <LoginForm 
+                    onBackdropClick={() => setShowLogin(false)} 
+                    toggleSignup={() => setShowSignup(true)} 
+                    onSignedIn={handleSignedIn}
+                    onError={() => {
+                      setShowToast(true);
+                      setToastType('error');
+                      setToastMessage('Login failed!');
+                    }}
+                  />
+                )
+              }
+              <Toast type={toastType} message={toastMessage} isVisible={showToast} />
+            </div>
+          } />
+          {signedIn && <Route path="*" element={<Navigate replace to="/purchases" />} />}
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
