@@ -10,6 +10,7 @@ import Header from './components/Header/Header';
 import EmptyPage from './components/EmptyPage/EmptyPage';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import Budget from './components/Budget/Budget';
+import Transaction from './components/Transactions/transactions';
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -95,7 +96,7 @@ function App() {
               />
               <Route 
                 path="/spending-log" 
-                element={<EmptyPage title="Spending Log" />}
+                element={<Transaction userId={userId} />}
               />
               <Route 
                 path="/pie-chart" 
