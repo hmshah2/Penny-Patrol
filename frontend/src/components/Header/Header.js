@@ -12,7 +12,7 @@ const Header = ({ activeNav, setActiveNav, onLogout }) => {
       </header>
       <nav className={styles.appNav}>
         <NavLink to="/budget" className={({ isActive }) => isActive ? styles.navButtonActive : styles.navButton} onClick={() => setActiveNav('Budget')}>Budget</NavLink>
-        <NavLink to="/spending-log" className={({ isActive }) => isActive ? styles.navButtonActive : styles.navButton} onClick={() => setActiveNav('Spending Log')}>Spending Log</NavLink>
+        <NavLink to="/transactions" className={({ isActive }) => isActive ? styles.navButtonActive : styles.navButton} onClick={() => setActiveNav('Transactions')}>Spending Log</NavLink>
         <NavLink to="/pie-chart" className={({ isActive }) => isActive ? styles.navButtonActive : styles.navButton} onClick={() => setActiveNav('Financial Analysis')}>Financial Analysis</NavLink>
         <div className={styles.userIconWrapper}>
             <div className={styles.userIcon} onClick={() => setShowLogout(!showLogout)}>👤</div>
