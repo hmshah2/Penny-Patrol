@@ -1,116 +1,115 @@
-.transaction-form-container {
-    padding: 10%;
-    border-radius: 8px;
-    max-width: 50%; 
-    margin: 0 auto;
-  }
-  
-  .transaction-form {
-    display: flex;
-    flex-direction: column;
-    background-color: #87c1cc;
-    padding: 8%;
-    margin-bottom: 0;
-    border-radius: 10px;
-  }
-  
-  .transaction-form h2 {
-    color: white;
-    text-align: center;
-    margin-bottom: 4%;
-  }
-  
-  .transaction-form input,
-  .transaction-form select,
-  .transaction-form button,
-  .transaction-form textarea {
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 2px solid #CBD6E2; 
-    border-radius: 8px; 
-    font-size: 1rem; 
-  }
-  
-  .transaction-form input::placeholder {
-    color: #9DA9B9; 
-  }
-  
-  .transaction-form button {
-    background-color: #FFF;
-    color: #333;
-    cursor: pointer; 
-    transition: background-color 0.3s, color 0.3s; 
-    border-radius: 10px;
-  }
-  
-  .transaction-form button:hover {
-    background-color: #333;
-    color: #FFF;
-  }
+.transaction-form-container, .income-form-container {
+  padding: 10%;
+  border-radius: 8px;
+  max-width: 45%; 
+  margin: 0;
+  flex-grow: 1; 
+}
 
-  .transactions-list {
-    background-color: #87c1cc;
-    margin: 5%;
-    border-radius: 8px;
-    padding: 3%;
-    padding-top: 1%;
-    margin-top: 0;
-    text-align: center;
-    align-items: center;
-    align-content: center;
-  }
+.transaction-form, .income-form {
+  display: flex;
+  flex-direction: column;
+  background-color: #87c1cc;
+  padding: 8%;
+  margin-bottom: 0;
+  border-radius: 10px;
+}
 
-  .transactions-list h2 {
-    color: white;
-  }
+.transaction-form h2, .income-form h2 {
+  color: white;
+  text-align: center;
+  margin-bottom: 4%;
+}
 
-  .transaction-item {
-    background-color: #fff; 
-    margin-bottom: 1em;
-    padding: 1em;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
-    display: grid;
-    grid-template-columns: repeat(4, 1fr) auto; 
-    gap: 1em;
-    align-items: center;
-  }
-  
-  .transaction-item span, 
-  .transaction-item button {
-    display: block;
-  }
-  
-  .transaction-date {
-    font-size: 1em;
-    color: #333;
-  }
-  
-  .transaction-amount {
-    font-size: 1em;
-    color: #333; 
-  }
-  
-  .transaction-category {
-    font-size: 1em;
-    color: #333;
-  }
-  
-  .transaction-description {
-    font-size: 1em;
-    color: #333;
-  }
-  
-  .delete-button {
-    background-color: #f44336;
-    color: white;
-    border: none;
-    padding: 0.5em 1em;
-    border-radius: 8px;
-    cursor: pointer;
-    border-radius: 8px;
-  }
-  
-  .delete-button:hover {
-    background-color: #d32f2f; 
-  }
+.transaction-form input,
+.transaction-form select,
+.transaction-form button,
+.transaction-form textarea,
+.income-form input,
+.income-form select,
+.income-form button,
+.income-form textarea {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 2px solid #CBD6E2;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.transaction-form input::placeholder, .income-form input::placeholder {
+  color: #9DA9B9;
+}
+
+.transaction-form button, .income-form button {
+  background-color: #FFF;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  border-radius: 10px;
+}
+
+.transaction-form button:hover, .income-form button:hover {
+  background-color: #333;
+  color: #FFF;
+}
+
+.transactions-list {
+  background-color: #87c1cc;
+  margin: 5%;
+  border-radius: 8px;
+  padding: 3%;
+  padding-top: 1%;
+  margin-top: 0;
+  text-align: center;
+  align-items: center;
+  align-content: center;
+  color: white;
+  width: 45%;
+  box-sizing: border-box;
+}
+
+.transaction-item {
+  background-color: #fff; 
+  margin-bottom: 1em;
+  padding: 1em;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+  display: grid;
+  grid-template-columns: repeat(4, 1fr) auto; 
+  gap: 1em;
+  align-items: center;
+  color: #333;
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: #d32f2f; 
+}
+
+.transactions-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: 5px;
+}
+
+.transaction-lists-container {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  gap: 20px;
+}
