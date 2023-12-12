@@ -1,11 +1,11 @@
 .container {
     padding: 20px;
-    max-width: 800px;
+    max-width: 500px;
     margin: auto;
     background-color: #fff;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     border-radius: 8px;
-    min-width: 300px; /* Ensure minimum width */
+    min-width: 300px; 
 }
 
 .form {
@@ -13,7 +13,7 @@
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
-    max-width: 400px; /* Adjust as needed */
+    max-width: 100%; 
     margin: auto;
 }
 
@@ -44,15 +44,22 @@
     color: #47859c;
 }
 
-.submitButton {
+.submitButton, .cancelButton {
     padding: 10px 20px;
-    background-color: #47859c;
-    color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: 150px;
-    align-self: flex-end;
+    font-weight: bold;
+}
+
+.submitButton {
+    background-color: #47859c;
+    color: white;
+}
+
+.cancelButton {
+    background-color: #af4c4c;
+    color: white;
 }
 
 .submitButton:hover {
@@ -107,17 +114,12 @@
     background-color: #d66363;
 }
 
-.cancelButton {
-    width: auto;
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #af4c4c;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
 .cancelButton:hover {
     background-color: #d66363;
+}
+
+.buttonGroup {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px; 
 }
