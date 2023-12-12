@@ -1,0 +1,125 @@
+.container {
+    padding: 20px;
+    max-width: 500px;
+    margin: auto;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    min-width: 300px; 
+}
+
+.form {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    max-width: 100%; 
+    margin: auto;
+}
+
+.formGroup {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    width: 100%; 
+}
+
+.label {
+    flex: 0 0 120px;
+    text-align: right;
+    margin-right: 15px;
+    font-weight: bold;
+}
+
+.inputField {
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 100%; 
+}
+
+.remainingBudget {
+    margin-left: 15px;
+    font-weight: bold;
+    color: #47859c;
+}
+
+.submitButton, .cancelButton {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.submitButton {
+    background-color: #47859c;
+    color: white;
+}
+
+.cancelButton {
+    background-color: #af4c4c;
+    color: white;
+}
+
+.submitButton:hover {
+    background-color: #67a2b4;
+}
+
+.budgetList {
+    list-style: none;
+    padding: 0;
+}
+
+.budgetItem {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.itemDetails {
+    display: flex;
+    align-items: center;
+}
+
+.budgetLabel {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.editButton, .deleteButton {
+    background-color: #47859c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.editButton:hover {
+    background-color: #67a2b4;
+}
+
+.deleteButton {
+    background-color: #af4c4c;
+}
+
+.deleteButton:hover {
+    background-color: #d66363;
+}
+
+.cancelButton:hover {
+    background-color: #d66363;
+}
+
+.buttonGroup {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px; 
+}
