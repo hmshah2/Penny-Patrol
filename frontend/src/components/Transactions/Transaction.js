@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './Transaction.css'; 
 
 const Transaction = ({ userId }) => {
@@ -7,9 +7,8 @@ const Transaction = ({ userId }) => {
   const [description, setDescription] = useState('');
   const [date, setDate] = useState('');
   const [transactions, setTransactions] = useState([]);
-  
 
-  const fetchTransactions = async () => {
+  const fetchTransactions = useCallback(async () => {
     const endpoint = `http://localhost:4000/api/spendings?${userId}`;
     try {
       const response = await fetch(endpoint);
@@ -21,12 +20,11 @@ const Transaction = ({ userId }) => {
     } catch (error) {
       console.error("Could not fetch transactions:", error);
     }
-  };
-
+  }, [userId]); 
 
   useEffect(() => {
     fetchTransactions();
-  }, [userId]); 
+  }, [fetchTransactions]); 
 
   const effectiveDate = date || new Date().toISOString().split('T')[0];
 
@@ -55,27 +53,33 @@ const Transaction = ({ userId }) => {
     const endpoint = 'http://localhost:4000/api/spendings';
   
     try {
-      const response = await fetch(endpoint, {
+        const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+        'Content-Type': 'application/json',
         },
         body: JSON.stringify(spendingData),
-      });
-  
-      if (!response.ok) {
+    });
+
+    if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
-      }
-  
-      const responseData = await response.json();
+    }
+
+    if (response.ok) {
+        setAmount('');
+        setCategory('');
+        setDescription('');
+        setDate('');
+    }
+
+    const responseData = await response.json();
 
       if (responseData.date.endsWith('Z')) {
         responseData.date = toLocalDateISOString(new Date(responseData.date));
       }
   
       setTransactions(prevTransactions => {
-        const updatedTransactions = [...prevTransactions, responseData].sort((a, b) => new Date(a.date) - new Date(b.date));
-        return updatedTransactions;
+        return [...prevTransactions, { ...spendingData, _id: responseData._id }].sort((a, b) => new Date(a.date) - new Date(b.date));
       });
 
       await fetchTransactions();
@@ -88,6 +92,8 @@ const Transaction = ({ userId }) => {
   
     } catch (error) {
       console.error('Error submitting the form:', error);
+      // Optionally, fetch transactions again in case of error
+      fetchTransactions();
     }
   };
   
