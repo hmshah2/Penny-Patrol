@@ -5,6 +5,12 @@
   height: 100vh;
 }
 
+.LoginForm, .SignupForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .LoginForm {
   position: absolute;
   display: flex;

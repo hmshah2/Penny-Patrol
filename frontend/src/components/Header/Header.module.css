@@ -47,3 +47,24 @@
 .userIcon {
     float: right
 }
+
+.logoutDropdown {
+    position: absolute;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    display: none;
+  }
+  
+  .showLogout .logoutDropdown {
+    display: block;
+    animation: fadeIn 0.3s;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }  

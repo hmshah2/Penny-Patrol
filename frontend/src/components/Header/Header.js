@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './Header.module.css';
 
-const Header = ({ activeNav, setActiveNav }) => {
-  return (
+const Header = ({ activeNav, setActiveNav, onLogout }) => {
+    const [showLogout, setShowLogout] = useState(false);
+
+    return (
     <div className={styles.fullHeader}>
       <header className={styles.appHeader}>
         Penny Patrol
@@ -12,7 +14,7 @@ const Header = ({ activeNav, setActiveNav }) => {
         <NavLink to="/purchases" className={({ isActive }) => isActive ? styles.navButtonActive : styles.navButton} onClick={() => setActiveNav('Purchases')}>Purchases</NavLink>
         <NavLink to="/spending-log" className={({ isActive }) => isActive ? styles.navButtonActive : styles.navButton} onClick={() => setActiveNav('Spending Log')}>Spending Log</NavLink>
         <NavLink to="/pie-chart" className={({ isActive }) => isActive ? styles.navButtonActive : styles.navButton} onClick={() => setActiveNav('Financial Analysis')}>Financial Analysis</NavLink>
-        <div className={styles.userIcon}>👤</div>
+        <div className={styles.userIcon} onClick={onLogout}>👤</div>
       </nav>
     </div>
   );
