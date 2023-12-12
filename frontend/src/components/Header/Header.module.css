@@ -12,7 +12,7 @@
     text-align: left;
     font-size: 2rem;
     margin: 0;
-    font-weight: 600;
+    font-weight: bold;
 }
 
 .appNav {
@@ -48,23 +48,35 @@
     float: right
 }
 
+.showLogout .logoutDropdown {
+    display: block;
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}  
+
+.userIconWrapper {
+    position: relative;
+}
+
 .logoutDropdown {
     position: absolute;
     right: 0;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    display: none;
-  }
-  
-  .showLogout .logoutDropdown {
-    display: block;
-    animation: fadeIn 0.3s;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }  
+    top: 100%;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 8px 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    z-index: 10;
+}
+
+.logoutDropdown button {
+    color: #007bff;
+    background: none;
+    border: none;
+    cursor: pointer;
+}

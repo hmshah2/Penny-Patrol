@@ -9,6 +9,7 @@ import PieChart from './components/PieChart/PieChart';
 import Header from './components/Header/Header';
 import EmptyPage from './components/EmptyPage/EmptyPage';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import Budget from './components/Budget/Budget';
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -17,7 +18,7 @@ function App() {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState('');
-  const [userId, setUserId] = useState(null); // Assume you will set this upon login
+  const [userId, setUserId] = useState(null); 
   const [activeNav, setActiveNav] = useState('Financial Analysis');
 
   useEffect(() => {
@@ -32,7 +33,7 @@ function App() {
 
   const handleSignedIn = (userId) => {
     setSignedIn(true);
-    setUserId(userId); // Set the user ID upon successful login
+    setUserId(userId); 
     setShowToast(true);
     setToastType('success');
     setToastMessage('Login success!');
@@ -53,7 +54,6 @@ function App() {
           <Route path="/" element={
             signedIn ? 
               <ProtectedRoute signedIn={signedIn}>
-                {/* Redirect to a default protected page after login */}
                 <Navigate replace to="/purchases" />
               </ProtectedRoute>
               :
@@ -90,8 +90,8 @@ function App() {
           {signedIn && (
             <>
               <Route 
-                path="/purchases" 
-                element={<EmptyPage title="Purchases" />}
+                path="/budget" 
+                element={<Budget title="Budget" />}
               />
               <Route 
                 path="/spending-log" 
