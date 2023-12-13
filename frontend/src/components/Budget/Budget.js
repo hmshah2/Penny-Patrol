@@ -100,16 +100,6 @@ const Budget = () => {
     };
 
     const handleDelete = async (id) => {
-        // try {
-        //     await axios.delete(`http://localhost:4000/api/budgets/${id}`);
-        //     fetchBudgets().then(() => {
-        //         if (editing && currentBudget._id === id) {
-        //             resetForm();
-        //         }
-        //     });
-        // } catch (error) {
-        //     console.error('Error deleting budget:', error);
-        // }
         const endpoint = `http://localhost:4000/api/budgets/${id}`;
         try {
             const response = await fetch(endpoint, {
@@ -125,13 +115,6 @@ const Budget = () => {
             console.error('Error deleting budget:', error);
         }
     };
-
-    // const calculateRemainingBudget = (budget) => {
-    //     const spentAmount = spendings
-    //         .filter(spend => new Date(spend.date) >= new Date(budget.startDate) && new Date(spend.date) <= new Date(budget.endDate))
-    //         .reduce((acc, spend) => acc + spend.amount, 0);
-    //     return budget.amount - spentAmount;
-    // };
 
     const calculateRemainingBudget = (budget) => {
         // Ensure budget amount is parsed as a number
@@ -153,7 +136,6 @@ const Budget = () => {
     // console.log(`Remaining budget for period ${budget.startDate} - ${budget.endDate}: ${remainingBudget}`);
     return remainingBudget;
     };
-    
 
     return (
         <div className={styles.container}>

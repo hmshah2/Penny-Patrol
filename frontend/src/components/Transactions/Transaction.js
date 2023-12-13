@@ -13,6 +13,12 @@ const Transaction = ({ userId }) => {
   const [incomeDate, setIncomeDate] = useState('');
   const [incomeTransactions, setIncomeTransactions] = useState([]);
 
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const adjustedDate = new Date(d.getTime() + d.getTimezoneOffset() * 60000);
+    return adjustedDate.toISOString().split('T')[0];
+  };
+
   const fetchTransactions = useCallback(async () => {
     const endpoint = `http://localhost:4000/api/spendings?${userId}`;
     try {
@@ -50,13 +56,6 @@ const Transaction = ({ userId }) => {
   }, [fetchIncomeTransactions]); 
 
   const effectiveDate = date || new Date().toISOString().split('T')[0];
-
-  const formatDate = (date) => {
-    const d = new Date(date);
-    const adjustedDate = new Date(d.getTime() + d.getTimezoneOffset() * 60000);
-    return adjustedDate.toISOString().split('T')[0];
-};
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -296,7 +295,7 @@ const Transaction = ({ userId }) => {
             <h3>{monthYear}</h3>
               {transactionsByMonth[monthYear].map((transaction) => (
                 <div className="transaction-item" key={transaction._id}>
-                  <span className="transaction-date">{new Date(transaction.date).toLocaleDateString()}</span>
+                  <span className="transaction-date">{formatDate(new Date(transaction.date))}</span>
                   <span className="transaction-amount">
                     ${typeof transaction.amount === 'number' ? transaction.amount.toFixed(2) : '0.00'}
                   </span>
