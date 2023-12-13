@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import { ReactComponent as MenuIcon } from '../../assets/icon-hamburger.svg';
 import Hamburger from 'hamburger-react';
 import { NavLink } from 'react-router-dom';
 import styles from './Header.module.css';
@@ -9,6 +8,9 @@ const Header = ({ activeNav, setActiveNav, onLogout }) => {
     const [menuOpen, setMenuOpen] = useState(false)
 
     return (
+    <div>
+    <div className={styles.headerPlaceholder}>
+    </div>
     <div className={styles.fullHeader}>
       <header className={styles.appHeader}>
         Penny Patrol
@@ -31,6 +33,7 @@ const Header = ({ activeNav, setActiveNav, onLogout }) => {
           </div>
         )}
       </nav>
+    </div>
     </div>
   );
 };

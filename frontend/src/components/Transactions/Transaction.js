@@ -12,6 +12,7 @@ const Transaction = ({ userId }) => {
   const [incomeDescription, setIncomeDescription] = useState('');
   const [incomeDate, setIncomeDate] = useState('');
   const [incomeTransactions, setIncomeTransactions] = useState([]);
+  const [currentTab, setCurrentTab] = useState('transactions');
 
   const formatDate = (date) => {
     const d = new Date(date);
@@ -216,8 +217,14 @@ const Transaction = ({ userId }) => {
 
   return (
     <div className="transactions-container">
+      <div className="tabs-container">
+        <div className="tabs">
+          <div className={`tab ${currentTab === 'transactions' ? 'active' : ''}`} onClick={() => setCurrentTab('transactions')}>Transactions</div>
+          <div className={`tab ${currentTab === 'incomes' ? 'active' : ''}`} onClick={() => setCurrentTab('incomes')}>Incomes</div>
+        </div>
+      </div>
       <div className="form-container">
-        <div className="transaction-form-container">
+        <div className={`transaction-form-container ${currentTab == 'transactions' ? 'active' : ''}`}>
           <form className="transaction-form" onSubmit={handleSubmit}>
             <h2>Add Transaction</h2>
             <input
@@ -251,7 +258,7 @@ const Transaction = ({ userId }) => {
             <button type="submit" className="submit-button">Done</button>
           </form>
         </div>
-        <div className="income-form-container">
+        <div className={`income-form-container ${currentTab === 'incomes' ? 'active' : ''}`}>
           <form className="income-form" onSubmit={handleIncomeSubmit}>
             <h2>Add Income</h2>
             <input
@@ -288,7 +295,7 @@ const Transaction = ({ userId }) => {
       </div>  
   
       <div className="transaction-lists-container">
-      <div className="transactions-list">
+      <div className={`transactions-list ${currentTab == 'transactions' ? 'active' : ''}`}>
         <h2>Transactions</h2>
         {Object.keys(transactionsByMonth).map((monthYear) => (
           <div key={monthYear}>
@@ -308,7 +315,7 @@ const Transaction = ({ userId }) => {
         ))}
       </div>
 
-      <div className="transactions-list">
+      <div className={`transactions-list ${currentTab === 'incomes' ? 'active' : ''}`}>
         <h2>Income</h2>
         {incomeTransactions.map((incomeTransaction) => (
           <div className="transaction-item" key={incomeTransaction._id}>
