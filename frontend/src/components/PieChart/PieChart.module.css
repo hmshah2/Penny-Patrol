@@ -125,6 +125,11 @@ button {
   width: 80%;
   height: auto;
   color: black;
+  border-radius: 8px;
+}
+
+.budgetBreach {
+  text-align: center;
 }
 
 .expensesContainer {
@@ -160,7 +165,7 @@ button {
 .expenseTransactions {
   color: #666; 
   margin-right: 10px; 
-  font-size: 50%;
+  font-size: 75%;
 }
 
 
