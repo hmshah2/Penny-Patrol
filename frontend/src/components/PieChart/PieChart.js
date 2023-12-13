@@ -28,7 +28,7 @@ const MyPieChart = () => {
     // }, []);
     
     useEffect(() => {
-        axios.get('http://localhost:4000/api/spendings')
+        axios.get('https://penny-patrol-api.onrender.com/api/spendings')
             .then(response => {
                 const spendings = response.data.data;
                 const spendings2 = response.data.data;
@@ -39,7 +39,7 @@ const MyPieChart = () => {
             })
             .catch(error => console.error("Error fetching spending data: ", error));
 
-        axios.get('http://localhost:4000/api/incomes')
+        axios.get('https://penny-patrol-api.onrender.com/api/incomes')
             .then(response => {
                 const incomes = response.data.data;
                 const groupedIncomes = groupDataByMonth(incomes);
@@ -47,7 +47,7 @@ const MyPieChart = () => {
             })
             .catch(error => console.error("Error fetching income data: ", error));
 
-        axios.get('http://localhost:4000/api/budgets')
+        axios.get('https://penny-patrol-api.onrender.com/api/budgets')
             .then(response => setBudgets(response.data.data))
             .catch(error => console.error("Error fetching budgets: ", error));
     }, []);

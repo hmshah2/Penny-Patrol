@@ -12,6 +12,7 @@ const Transaction = () => {
   const [incomeDescription, setIncomeDescription] = useState('');
   const [incomeDate, setIncomeDate] = useState('');
   const [incomeTransactions, setIncomeTransactions] = useState([]);
+  const [currentTab, setCurrentTab] = useState('transactions');
 
   const formatDate = (date) => {
     const d = new Date(date);
@@ -20,7 +21,7 @@ const Transaction = () => {
   };
 
   const fetchTransactions = useCallback(async () => {
-    const endpoint = `http://localhost:4000/api/spendings`;
+    const endpoint = `https://penny-patrol-api.onrender.com/api/spendings`;
     try {
       const response = await fetch(endpoint);
       if (!response.ok) {
@@ -38,7 +39,7 @@ const Transaction = () => {
   }, [fetchTransactions]); 
 
   const fetchIncomeTransactions = useCallback(async () => {
-    const endpoint = `http://localhost:4000/api/incomes`;
+    const endpoint = `https://penny-patrol-api.onrender.com/api/incomes`;
     try {
       const response = await fetch(endpoint);
       if (!response.ok) {
@@ -72,7 +73,7 @@ const Transaction = () => {
       date: formatDate(date),
     };
   
-    const endpoint = 'http://localhost:4000/api/spendings';
+    const endpoint = 'https://penny-patrol-api.onrender.com/api/spendings';
   
     try {
         const response = await fetch(endpoint, {
@@ -126,7 +127,7 @@ const Transaction = () => {
       date: incomeDate || new Date().toISOString().split('T')[0],
     };
   
-    const endpoint = 'http://localhost:4000/api/incomes';
+    const endpoint = 'https://penny-patrol-api.onrender.com/api/incomes';
   
     try {
       const response = await fetch(endpoint, {
@@ -154,7 +155,7 @@ const Transaction = () => {
   };  
   
   const handleDelete = async (id) => {
-    const endpoint = `http://localhost:4000/api/spendings/${id}`;
+    const endpoint = `https://penny-patrol-api.onrender.com/api/spendings/${id}`;
 
     try {
       const response = await fetch(endpoint, {
@@ -172,7 +173,7 @@ const Transaction = () => {
   };
 
   const handleIncomeDelete = async (id) => {
-    const endpoint = `http://localhost:4000/api/incomes/${id}`;
+    const endpoint = `https://penny-patrol-api.onrender.com/api/incomes/${id}`;
 
     try {
       const response = await fetch(endpoint, {
@@ -210,8 +211,14 @@ const Transaction = () => {
 
   return (
     <div className="transactions-container">
+      <div className="tabs-container">
+        <div className="tabs">
+          <div className={`tab ${currentTab === 'transactions' ? 'active' : ''}`} onClick={() => setCurrentTab('transactions')}>Transactions</div>
+          <div className={`tab ${currentTab === 'incomes' ? 'active' : ''}`} onClick={() => setCurrentTab('incomes')}>Incomes</div>
+        </div>
+      </div>
       <div className="form-container">
-        <div className="transaction-form-container">
+        <div className={`transaction-form-container ${currentTab == 'transactions' ? 'active' : ''}`}>
           <form className="transaction-form" onSubmit={handleSubmit}>
             <h2>Add Transaction</h2>
             <input
@@ -245,7 +252,7 @@ const Transaction = () => {
             <button type="submit" className="submit-button">Done</button>
           </form>
         </div>
-        <div className="income-form-container">
+        <div className={`income-form-container ${currentTab === 'incomes' ? 'active' : ''}`}>
           <form className="income-form" onSubmit={handleIncomeSubmit}>
             <h2>Add Income</h2>
             <input
@@ -282,7 +289,7 @@ const Transaction = () => {
       </div>  
   
       <div className="transaction-lists-container">
-      <div className="transactions-list">
+      <div className={`transactions-list ${currentTab == 'transactions' ? 'active' : ''}`}>
         <h2>Transactions</h2>
         {Object.keys(transactionsByMonth).map((monthYear) => (
           <div key={monthYear}>
@@ -302,7 +309,7 @@ const Transaction = () => {
         ))}
       </div>
 
-      <div className="transactions-list">
+      <div className={`transactions-list ${currentTab === 'incomes' ? 'active' : ''}`}>
         <h2>Income</h2>
         {incomeTransactions.map((incomeTransaction) => (
           <div className="transaction-item" key={incomeTransaction._id}>

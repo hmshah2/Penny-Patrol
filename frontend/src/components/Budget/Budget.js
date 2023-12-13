@@ -21,7 +21,7 @@ const Budget = () => {
 
     const fetchBudgets = useCallback(async () => {
         try {
-            const response = await axios.get('http://localhost:4000/api/budgets');
+            const response = await axios.get('https://penny-patrol-api.onrender.com/api/budgets');
             const sortedBudgets = response.data.data.map(budget => ({
                 ...budget,
                 startDate: formatDate(budget.startDate),
@@ -36,7 +36,7 @@ const Budget = () => {
 
     const fetchSpendings = async () => {
         try {
-            const response = await axios.get('http://localhost:4000/api/spendings');
+            const response = await axios.get('https://penny-patrol-api.onrender.com/api/spendings');
             console.log('Spendings data:', response.data.data);
             setSpendings(response.data.data);
         } catch (error) {
@@ -74,9 +74,9 @@ const Budget = () => {
 
         try {
             if (editing) {
-                await axios.put(`http://localhost:4000/api/budgets/${currentBudget._id}`, budgetData);
+                await axios.put(`https://penny-patrol-api.onrender.com/api/budgets/${currentBudget._id}`, budgetData);
             } else {
-                await axios.post('http://localhost:4000/api/budgets', budgetData);
+                await axios.post('https://penny-patrol-api.onrender.com/api/budgets', budgetData);
             }
             fetchBudgets();
             resetForm(); // Reset form after submit
@@ -102,7 +102,7 @@ const Budget = () => {
     };
 
     const handleDelete = async (id) => {
-        const endpoint = `http://localhost:4000/api/budgets/${id}`;
+        const endpoint = `https://penny-patrol-api.onrender.com/api/budgets/${id}`;
         try {
             const response = await fetch(endpoint, {
                 method: 'DELETE',

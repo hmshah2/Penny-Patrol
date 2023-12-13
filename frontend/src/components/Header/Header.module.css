@@ -6,6 +6,12 @@
     position: relative;
     box-sizing: border-box;
     background-color: #87c1cc;
+    position: fixed;
+    top: 0;
+}
+
+.headerPlaceholder {
+    height: calc(2vh + 5.2rem);
 }
 
 .appHeader {
@@ -108,5 +114,17 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .menuItems a {
+        margin: 0.5rem 0;
+        font-size: 1.1rem;
+    }
+    .logoutButton, .navButton, .navButtonActive {
+        padding: 0.2rem 0.8rem;
+        margin: 0 0.5rem;
+        font-size: 1rem;
     }
 }
