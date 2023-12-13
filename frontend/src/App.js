@@ -21,20 +21,21 @@ function App() {
   const [toastType, setToastType] = useState('');
   const [userId, setUserId] = useState(null); 
   const [activeNav, setActiveNav] = useState('Financial Analysis');
-
+  
   useEffect(() => {
-    let timer;
-    if (showToast) {
-      timer = setTimeout(() => {
-        setShowToast(false);
-      }, 3000);
+    const isUserSignedIn = localStorage.getItem('signedIn') === 'true';
+    const storedUserId = localStorage.getItem('userId');
+    if (isUserSignedIn && storedUserId) {
+      setSignedIn(true);
+      setUserId(storedUserId);
     }
-    return () => clearTimeout(timer);
-  }, [showToast]);
+  }, []);
 
   const handleSignedIn = (userId) => {
     setSignedIn(true);
     setUserId(userId); 
+    localStorage.setItem('signedIn', true);
+    localStorage.setItem('userId', userId);  
     setShowToast(true);
     setToastType('success');
     setToastMessage('Login success!');
@@ -44,6 +45,8 @@ function App() {
   const handleLogout = () => {
     setSignedIn(false);
     setUserId(null); 
+    localStorage.removeItem('signedIn');
+    localStorage.removeItem('userId');
     window.location.href = '/';
   };
 
