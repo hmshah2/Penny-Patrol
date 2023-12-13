@@ -13,7 +13,7 @@ const MyPieChart = () => {
     const [totalIncome, setTotalIncome] = useState(0);
     const [totalExpenses, setTotalExpenses] = useState(0);
     const [netSavings, setNetSavings] = useState(0);
-    // const [budgets, setBudgets] = useState([]);
+    const [budgets, setBudgets] = useState([]);
     const [spendings2, setSpendings2] = useState([]);
 
     useEffect(() => {
