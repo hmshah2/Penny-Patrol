@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './Transaction.css'; 
 
-const Transaction = ({ userId }) => {
+const Transaction = () => {
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
@@ -21,7 +21,7 @@ const Transaction = ({ userId }) => {
   };
 
   const fetchTransactions = useCallback(async () => {
-    const endpoint = `http://localhost:4000/api/spendings?${userId}`;
+    const endpoint = `http://localhost:4000/api/spendings`;
     try {
       const response = await fetch(endpoint);
       if (!response.ok) {
@@ -32,14 +32,14 @@ const Transaction = ({ userId }) => {
     } catch (error) {
       console.error("Could not fetch transactions:", error);
     }
-  }, [userId]); 
+  }, []); 
 
   useEffect(() => {
     fetchTransactions();
   }, [fetchTransactions]); 
 
   const fetchIncomeTransactions = useCallback(async () => {
-    const endpoint = `http://localhost:4000/api/incomes?user=${userId}`;
+    const endpoint = `http://localhost:4000/api/incomes`;
     try {
       const response = await fetch(endpoint);
       if (!response.ok) {
@@ -50,7 +50,7 @@ const Transaction = ({ userId }) => {
     } catch (error) {
       console.error("Could not fetch income transactions:", error);
     }
-  }, [userId]);
+  }, []);
   
   useEffect(() => {
     fetchIncomeTransactions();
@@ -66,16 +66,11 @@ const Transaction = ({ userId }) => {
     return;
   }
 
-    // const [year, month, day] = date.split('-').map(part => parseInt(part, 10));
-    // const dateObject = new Date(year, month - 1, day + 1);
-    // const dateToSend = toLocalDateISOString(dateObject);  
-
     const spendingData = {
       amount: Number(amount),
       category,
       description,
       date: formatDate(date),
-      user: userId,
     };
   
     const endpoint = 'http://localhost:4000/api/spendings';
@@ -130,7 +125,6 @@ const Transaction = ({ userId }) => {
       category: incomeCategory,
       description: incomeDescription,
       date: incomeDate || new Date().toISOString().split('T')[0],
-      user: userId,
     };
   
     const endpoint = 'http://localhost:4000/api/incomes';

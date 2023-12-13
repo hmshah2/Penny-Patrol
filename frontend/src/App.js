@@ -7,7 +7,6 @@ import SignupForm from './components/SignupForm/SignupForm';
 import Toast from './components/toast/toast';
 import PieChart from './components/PieChart/PieChart';
 import Header from './components/Header/Header';
-// import EmptyPage from './components/EmptyPage/EmptyPage';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import Budget from './components/Budget/Budget';
 import Transaction from './components/Transactions/Transaction';
@@ -19,7 +18,6 @@ function App() {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState('');
-  const [userId, setUserId] = useState(null); 
   const [activeNav, setActiveNav] = useState('Financial Analysis');
 
   useEffect(() => {
@@ -37,13 +35,11 @@ function App() {
     const storedUserId = localStorage.getItem('userId');
     if (isUserSignedIn && storedUserId) {
       setSignedIn(true);
-      setUserId(storedUserId);
     }
   }, []);
 
   const handleSignedIn = (userId) => {
     setSignedIn(true);
-    setUserId(userId); 
     localStorage.setItem('signedIn', true);
     localStorage.setItem('userId', userId);  
     setShowToast(true);
@@ -54,7 +50,6 @@ function App() {
 
   const handleLogout = () => {
     setSignedIn(false);
-    setUserId(null); 
     localStorage.removeItem('signedIn');
     localStorage.removeItem('userId');
     window.location.href = '/';
@@ -111,15 +106,15 @@ function App() {
               />
               <Route 
                 path="/transactions" 
-                element={<Transaction userId={userId} />}
+                element={<Transaction/>}
               />
               <Route 
                 path="/pie-chart" 
-                element={<PieChart userId={userId} />}
+                element={<PieChart/>}
               />
             </>
           )}
-          {signedIn && <Route path="*" element={<Navigate replace to="/purchases" />} />}
+          {signedIn && <Route path="*" element={<Navigate replace to="/pie-chart" />} />}
         </Routes>
       </div>
     </BrowserRouter>
