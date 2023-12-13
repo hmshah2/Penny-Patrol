@@ -28,25 +28,30 @@ const Transaction = ({ userId }) => {
 
   const effectiveDate = date || new Date().toISOString().split('T')[0];
 
-  function toLocalDateISOString(date) {
-    const offset = date.getTimezoneOffset();
-    const localDate = new Date(date.getTime() - (offset * 60 * 1000));
-    return localDate.toISOString().split('T')[0];
-  }
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const adjustedDate = new Date(d.getTime() + d.getTimezoneOffset() * 60000);
+    return adjustedDate.toISOString().split('T')[0];
+};
 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const [year, month, day] = date.split('-').map(part => parseInt(part, 10));
-    const dateObject = new Date(year, month - 1, day + 1);
-    const dateToSend = toLocalDateISOString(dateObject);  
+    if (amount < 0) {
+      alert("Amount cannot be negative");
+    return;
+  }
+
+    // const [year, month, day] = date.split('-').map(part => parseInt(part, 10));
+    // const dateObject = new Date(year, month - 1, day + 1);
+    // const dateToSend = toLocalDateISOString(dateObject);  
 
     const spendingData = {
       amount: Number(amount),
       category,
       description,
-      date: dateToSend,
+      date: formatDate(date),
       user: userId,
     };
   
@@ -75,7 +80,7 @@ const Transaction = ({ userId }) => {
     const responseData = await response.json();
 
       if (responseData.date.endsWith('Z')) {
-        responseData.date = toLocalDateISOString(new Date(responseData.date));
+        responseData.date = formatDate(new Date(responseData.date));
       }
   
       setTransactions(prevTransactions => {
@@ -122,7 +127,7 @@ const Transaction = ({ userId }) => {
     transactions.sort((a, b) => new Date(a.date) - new Date(b.date));
     transactions.forEach(item => {
       
-      const dateToUse = item.date ? toLocalDateISOString(new Date(item.date)) : toLocalDateISOString(new Date(effectiveDate));
+      const dateToUse = item.date ? formatDate(new Date(item.date)) : formatDate(new Date(effectiveDate));
       const [year, month, day] = dateToUse.split('-').map(num => parseInt(num, 10));
       const monthYearKey = new Date(year, month - 1, day).toLocaleString('default', { month: 'long', year: 'numeric' });
       
@@ -179,7 +184,7 @@ const Transaction = ({ userId }) => {
             <h3>{monthYear}</h3>
               {transactionsByMonth[monthYear].map((transaction) => (
                 <div className="transaction-item" key={transaction._id}>
-                  <span className="transaction-date">{new Date(transaction.date).toLocaleDateString()}</span>
+                  <span className="transaction-date">{formatDate(new Date(transaction.date))}</span>
                   <span className="transaction-amount">
                     ${typeof transaction.amount === 'number' ? transaction.amount.toFixed(2) : '0.00'}
                   </span>

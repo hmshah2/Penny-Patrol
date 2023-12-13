@@ -35,6 +35,7 @@ const Budget = () => {
     const fetchSpendings = async () => {
         try {
             const response = await axios.get('http://localhost:4000/api/spendings');
+            console.log('Spendings data:', response.data.data);
             setSpendings(response.data.data);
         } catch (error) {
             console.error('Error fetching spendings:', error);
@@ -99,24 +100,60 @@ const Budget = () => {
     };
 
     const handleDelete = async (id) => {
+        // try {
+        //     await axios.delete(`http://localhost:4000/api/budgets/${id}`);
+        //     fetchBudgets().then(() => {
+        //         if (editing && currentBudget._id === id) {
+        //             resetForm();
+        //         }
+        //     });
+        // } catch (error) {
+        //     console.error('Error deleting budget:', error);
+        // }
+        const endpoint = `http://localhost:4000/api/budgets/${id}`;
         try {
-            await axios.delete(`http://localhost:4000/api/budgets/${id}`);
-            fetchBudgets().then(() => {
-                if (editing && currentBudget._id === id) {
-                    resetForm();
-                }
+            const response = await fetch(endpoint, {
+                method: 'DELETE',
             });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            resetForm();
+            setBudgets(budgets.filter(budget => budget._id !== id));
         } catch (error) {
             console.error('Error deleting budget:', error);
         }
     };
 
+    // const calculateRemainingBudget = (budget) => {
+    //     const spentAmount = spendings
+    //         .filter(spend => new Date(spend.date) >= new Date(budget.startDate) && new Date(spend.date) <= new Date(budget.endDate))
+    //         .reduce((acc, spend) => acc + spend.amount, 0);
+    //     return budget.amount - spentAmount;
+    // };
+
     const calculateRemainingBudget = (budget) => {
+        // Ensure budget amount is parsed as a number
+        const budgetAmount = parseFloat(budget.amount);
+        // console.log(`Budget amount for period ${budget.startDate} - ${budget.endDate}: ${budgetAmount}`);
+    
+        // Calculate the total spent amount within the budget period
         const spentAmount = spendings
-            .filter(spend => new Date(spend.date) >= new Date(budget.startDate) && new Date(spend.date) <= new Date(budget.endDate))
-            .reduce((acc, spend) => acc + spend.amount, 0);
-        return budget.amount - spentAmount;
+            .filter(spend => {
+                const spendDate = new Date(spend.date);
+                return spendDate >= new Date(budget.startDate) && spendDate <= new Date(budget.endDate);
+            })
+            .reduce((acc, spend) => {
+                return acc + parseFloat(spend.amount);
+            }, 0);
+        // console.log(`Total spent amount for period ${budget.startDate} - ${budget.endDate}: ${spentAmount}`);
+    
+    const remainingBudget = budgetAmount - spentAmount;
+    // console.log(`Remaining budget for period ${budget.startDate} - ${budget.endDate}: ${remainingBudget}`);
+    return remainingBudget;
     };
+    
 
     return (
         <div className={styles.container}>
