@@ -21,7 +21,7 @@ const Transaction = () => {
   };
 
   const fetchTransactions = useCallback(async () => {
-    const endpoint = `http://localhost:4000/api/spendings`;
+    const endpoint = `https://penny-patrol-api.onrender.com/api/spendings`;
     try {
       const response = await fetch(endpoint);
       if (!response.ok) {
@@ -39,7 +39,7 @@ const Transaction = () => {
   }, [fetchTransactions]); 
 
   const fetchIncomeTransactions = useCallback(async () => {
-    const endpoint = `http://localhost:4000/api/incomes`;
+    const endpoint = `https://penny-patrol-api.onrender.com/api/incomes`;
     try {
       const response = await fetch(endpoint);
       if (!response.ok) {
@@ -73,7 +73,7 @@ const Transaction = () => {
       date: formatDate(date),
     };
   
-    const endpoint = 'http://localhost:4000/api/spendings';
+    const endpoint = 'https://penny-patrol-api.onrender.com/api/spendings';
   
     try {
         const response = await fetch(endpoint, {
@@ -127,7 +127,7 @@ const Transaction = () => {
       date: incomeDate || new Date().toISOString().split('T')[0],
     };
   
-    const endpoint = 'http://localhost:4000/api/incomes';
+    const endpoint = 'https://penny-patrol-api.onrender.com/api/incomes';
   
     try {
       const response = await fetch(endpoint, {
@@ -155,7 +155,7 @@ const Transaction = () => {
   };  
   
   const handleDelete = async (id) => {
-    const endpoint = `http://localhost:4000/api/spendings/${id}`;
+    const endpoint = `https://penny-patrol-api.onrender.com/api/spendings/${id}`;
 
     try {
       const response = await fetch(endpoint, {
@@ -173,7 +173,7 @@ const Transaction = () => {
   };
 
   const handleIncomeDelete = async (id) => {
-    const endpoint = `http://localhost:4000/api/incomes/${id}`;
+    const endpoint = `https://penny-patrol-api.onrender.com/api/incomes/${id}`;
 
     try {
       const response = await fetch(endpoint, {
