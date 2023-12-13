@@ -14,7 +14,7 @@ const MyPieChart = () => {
     const [totalExpenses, setTotalExpenses] = useState(0);
     const [netSavings, setNetSavings] = useState(0);
     // const [budgets, setBudgets] = useState([]);
-    const [spendings2, setSpendings2] = useState([]);
+    // const [spendings2, setSpendings2] = useState([]);
 
     useEffect(() => {
         // After fetching and processing data
@@ -31,8 +31,8 @@ const MyPieChart = () => {
         axios.get('https://penny-patrol-api.onrender.com/api/spendings')
             .then(response => {
                 const spendings = response.data.data;
-                const spendings2 = response.data.data;
-                setSpendings2(spendings2);
+                // const spendings2 = response.data.data;
+                // setSpendings2(spendings2);
                 const groupedSpendings = groupDataByMonth(spendings);
                 setMonthlySpendingData(groupedSpendings);
                 setSelectedMonth(Object.keys(groupedSpendings)[0] || '');
@@ -164,26 +164,26 @@ const MyPieChart = () => {
     //     return breaches.length > 0 ? breaches : [`You maintained all budgets in ${selectedMonth}.`];
     // };
 
-    const calculateRemainingBudget = (budget) => {
-        // Ensure budget amount is parsed as a number
-        const budgetAmount = parseFloat(budget.amount);
-        // console.log(`Budget amount for period ${budget.startDate} - ${budget.endDate}: ${budgetAmount}`);
+    // const calculateRemainingBudget = (budget) => {
+    //     // Ensure budget amount is parsed as a number
+    //     const budgetAmount = parseFloat(budget.amount);
+    //     // console.log(`Budget amount for period ${budget.startDate} - ${budget.endDate}: ${budgetAmount}`);
     
-        // Calculate the total spent amount within the budget period
-        const spentAmount = spendings2
-            .filter(spend => {
-                const spendDate = new Date(spend.date);
-                return spendDate >= new Date(budget.startDate) && spendDate <= new Date(budget.endDate);
-            })
-            .reduce((acc, spend) => {
-                return acc + parseFloat(spend.amount);
-            }, 0);
-        // console.log(`Total spent amount for period ${budget.startDate} - ${budget.endDate}: ${spentAmount}`);
+    //     // Calculate the total spent amount within the budget period
+    //     const spentAmount = spendings2
+    //         .filter(spend => {
+    //             const spendDate = new Date(spend.date);
+    //             return spendDate >= new Date(budget.startDate) && spendDate <= new Date(budget.endDate);
+    //         })
+    //         .reduce((acc, spend) => {
+    //             return acc + parseFloat(spend.amount);
+    //         }, 0);
+    //     // console.log(`Total spent amount for period ${budget.startDate} - ${budget.endDate}: ${spentAmount}`);
     
-    const remainingBudget = budgetAmount - spentAmount;
-    // console.log(`Remaining budget for period ${budget.startDate} - ${budget.endDate}: ${remainingBudget}`);
-    return remainingBudget;
-    };
+    // const remainingBudget = budgetAmount - spentAmount;
+    // // console.log(`Remaining budget for period ${budget.startDate} - ${budget.endDate}: ${remainingBudget}`);
+    // return remainingBudget;
+    // };
     
     const calculateExpenses = (data) => {
         const expenses = data.reduce((acc, item) => {
