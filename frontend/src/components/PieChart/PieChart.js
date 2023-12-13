@@ -14,16 +14,25 @@ const MyPieChart = () => {
     const [totalExpenses, setTotalExpenses] = useState(0);
     const [netSavings, setNetSavings] = useState(0);
     const [budgets, setBudgets] = useState([]);
+    const [spendings2, setSpendings2] = useState([]);
 
     useEffect(() => {
         // After fetching and processing data
         setSelectedMonth(Object.keys(monthlySpendingData)[0] || '');
     }, [monthlySpendingData, monthlyIncomeData]);
+
+    // useEffect(() => {
+    //     axios.get('http://localhost:4000/api/spendings')
+    //         .then(response => setSpendings2(response.data.data))
+    //         .catch(error => console.error("Error fetching spendings: ", error));
+    // }, []);
     
     useEffect(() => {
         axios.get('http://localhost:4000/api/spendings')
             .then(response => {
                 const spendings = response.data.data;
+                const spendings2 = response.data.data;
+                setSpendings2(spendings2);
                 const groupedSpendings = groupDataByMonth(spendings);
                 setMonthlySpendingData(groupedSpendings);
                 setSelectedMonth(Object.keys(groupedSpendings)[0] || '');
@@ -117,25 +126,63 @@ const MyPieChart = () => {
         const breaches = [];
 
         budgets.forEach(budget => {
-            const { amount, category, startDate, endDate } = budget;
-            const budgetStart = new Date(startDate);
-            const budgetEnd = new Date(endDate);
+            // const { amount, category, startDate, endDate } = budget;
+            // const budgetStart = new Date(startDate);
+            // const budgetEnd = new Date(endDate);
 
-            // Pro-rate the budget amount based on the number of days in the selected month
-            const daysInBudgetPeriod = (budgetEnd - budgetStart) / (1000 * 60 * 60 * 24) + 1;
-            const daysInSelectedMonth = new Date(budgetEnd.getFullYear(), budgetEnd.getMonth() + 1, 0).getDate();
-            const proRatedAmount = amount / daysInBudgetPeriod * daysInSelectedMonth;
+            // // Pro-rate the budget amount based on the number of days in the selected month
+            // const daysInBudgetPeriod = (budgetEnd - budgetStart) / (1000 * 60 * 60 * 24) + 1;
+            // const daysInSelectedMonth = new Date(budgetEnd.getFullYear(), budgetEnd.getMonth() + 1, 0).getDate();
+            // const proRatedAmount = amount / daysInBudgetPeriod * daysInSelectedMonth;
 
-            const totalSpentInCategory = selectedMonthSpendingData
-                .filter(spend => spend.category === category && new Date(spend.date) >= budgetStart && new Date(spend.date) <= budgetEnd)
-                .reduce((total, spend) => total + spend.amount, 0);
+            // const totalSpentInCategory = selectedMonthSpendingData
+            //     .filter(spend => spend.category === category && new Date(spend.date) >= budgetStart && new Date(spend.date) <= budgetEnd)
+            //     .reduce((total, spend) => total + spend.amount, 0);
 
-            if (totalSpentInCategory > proRatedAmount) {
-                breaches.push(`You went over budget in ${category} by $${(totalSpentInCategory - proRatedAmount).toFixed(2)} in ${selectedMonth}`);
+            // if (totalSpentInCategory > proRatedAmount) {
+            //     breaches.push(`You went over budget in ${category} by $${(totalSpentInCategory - proRatedAmount).toFixed(2)} in ${selectedMonth}`);
+            // }
+
+            const [year, month] = selectedMonth.split('-').map(Number);
+            const startOfMonth = new Date(year, month - 1, 1);
+            const endOfMonth = new Date(year, month, 0);
+            
+            // Check if the budget is in the selected month
+            const budgetStart = new Date(budget.startDate);
+            const budgetEnd = new Date(budget.endDate);
+            const isBudgetInSelectedMonth = startOfMonth <= budgetEnd && endOfMonth >= budgetStart;
+            
+            if (isBudgetInSelectedMonth) {
+                const remainingBudget = calculateRemainingBudget(budget);
+                if (remainingBudget < 0) {
+                    breaches.push(`You went over budget by $${Math.abs(remainingBudget).toFixed(2)} in ${selectedMonth}`);
+                }
             }
+            
         });
 
         return breaches.length > 0 ? breaches : [`You maintained all budgets in ${selectedMonth}.`];
+    };
+
+    const calculateRemainingBudget = (budget) => {
+        // Ensure budget amount is parsed as a number
+        const budgetAmount = parseFloat(budget.amount);
+        // console.log(`Budget amount for period ${budget.startDate} - ${budget.endDate}: ${budgetAmount}`);
+    
+        // Calculate the total spent amount within the budget period
+        const spentAmount = spendings2
+            .filter(spend => {
+                const spendDate = new Date(spend.date);
+                return spendDate >= new Date(budget.startDate) && spendDate <= new Date(budget.endDate);
+            })
+            .reduce((acc, spend) => {
+                return acc + parseFloat(spend.amount);
+            }, 0);
+        // console.log(`Total spent amount for period ${budget.startDate} - ${budget.endDate}: ${spentAmount}`);
+    
+    const remainingBudget = budgetAmount - spentAmount;
+    // console.log(`Remaining budget for period ${budget.startDate} - ${budget.endDate}: ${remainingBudget}`);
+    return remainingBudget;
     };
     
     const calculateExpenses = (data) => {
@@ -219,9 +266,11 @@ const MyPieChart = () => {
                             </li>
                             ))}
                         </ul>
-                        {budgetBreaches.map((breach, index) => (
-                            <p key={index}>{breach}</p>
-                        ))}
+                        {/* <div className={styles.budgetBreach}>
+                            {budgetBreaches.map((breach, index) => (
+                                <p key={index}>{breach}</p>
+                            ))}
+                        </div> */}
                     </div>
                 </aside>
             </main>
