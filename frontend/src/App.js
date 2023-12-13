@@ -18,7 +18,6 @@ function App() {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState('');
-  // const [userId, setUserId] = useState(null); 
   const [activeNav, setActiveNav] = useState('Financial Analysis');
 
   useEffect(() => {
@@ -36,13 +35,11 @@ function App() {
     const storedUserId = localStorage.getItem('userId');
     if (isUserSignedIn && storedUserId) {
       setSignedIn(true);
-      // setUserId(storedUserId);
     }
   }, []);
 
   const handleSignedIn = (userId) => {
     setSignedIn(true);
-    // setUserId(userId); 
     localStorage.setItem('signedIn', true);
     localStorage.setItem('userId', userId);  
     setShowToast(true);
@@ -53,7 +50,6 @@ function App() {
 
   const handleLogout = () => {
     setSignedIn(false);
-    // setUserId(null); 
     localStorage.removeItem('signedIn');
     localStorage.removeItem('userId');
     window.location.href = '/';
