@@ -51,11 +51,11 @@ const Transaction = ({ userId }) => {
 
   const effectiveDate = date || new Date().toISOString().split('T')[0];
 
-  function toLocalDateISOString(date) {
-    const offset = date.getTimezoneOffset();
-    const localDate = new Date(date.getTime() - (offset * 60 * 1000));
-    return localDate.toISOString().split('T')[0];
-  }
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const adjustedDate = new Date(d.getTime() + d.getTimezoneOffset() * 60000);
+    return adjustedDate.toISOString().split('T')[0];
+};
 
 
   const handleSubmit = async (event) => {
