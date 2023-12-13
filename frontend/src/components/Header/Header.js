@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import { ReactComponent as MenuIcon } from '../../assets/icon-hamburger.svg';
 import Hamburger from 'hamburger-react';
 import { NavLink } from 'react-router-dom';
 import styles from './Header.module.css';
