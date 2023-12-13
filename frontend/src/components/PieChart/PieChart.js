@@ -1,55 +1,89 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Pie } from 'react-chartjs-2';
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
-import styles from './PieChart.module.css'
+import styles from './PieChart.module.css';
 
 Chart.register(ArcElement, Tooltip, Legend);
 
-const MyPieChart = ({ }) => {
+const MyPieChart = () => {
     const [monthlySpendingData, setMonthlySpendingData] = useState({});
+    const [monthlyIncomeData, setMonthlyIncomeData] = useState({});
     const [selectedMonth, setSelectedMonth] = useState('');
+    const [totalIncome, setTotalIncome] = useState(0);
+    const [totalExpenses, setTotalExpenses] = useState(0);
+    const [netSavings, setNetSavings] = useState(0);
     const [budgets, setBudgets] = useState([]);
 
     useEffect(() => {
-        axios.get(`http://localhost:4000/api/spendings`)
-             .then(response => {
-                 console.log("Spending Data:", response.data.data); 
-                 const groupedData = groupDataByMonth(response.data.data);
-                 setMonthlySpendingData(groupedData);
+        // After fetching and processing data
+        setSelectedMonth(Object.keys(monthlySpendingData)[0] || '');
+    }, [monthlySpendingData, monthlyIncomeData]);
+    
+    useEffect(() => {
+        axios.get('http://localhost:4000/api/spendings')
+            .then(response => {
+                const spendings = response.data.data;
+                const groupedSpendings = groupDataByMonth(spendings);
+                setMonthlySpendingData(groupedSpendings);
+                setSelectedMonth(Object.keys(groupedSpendings)[0] || '');
+            })
+            .catch(error => console.error("Error fetching spending data: ", error));
 
-                 const firstMonthWithData = Object.keys(groupedData).find(month => groupedData[month].length > 0);
-                 if (firstMonthWithData) {
-                    setSelectedMonth(firstMonthWithData);
-                 } else {
-                    console.log("No data found for any month");
-                 }
-             })
-             .catch(error => {
-                 console.error("Error fetching spending data: ", error);
-             });
+        axios.get('http://localhost:4000/api/incomes')
+            .then(response => {
+                const incomes = response.data.data;
+                const groupedIncomes = groupDataByMonth(incomes);
+                setMonthlyIncomeData(groupedIncomes);
+            })
+            .catch(error => console.error("Error fetching income data: ", error));
 
-        axios.get(`http://localhost:4000/api/budgets`)
-             .then(response => {
-                 setBudgets(response.data.data);
-             })
-             .catch(error => console.error("Error fetching budgets: ", error));
+        axios.get('http://localhost:4000/api/budgets')
+            .then(response => setBudgets(response.data.data))
+            .catch(error => console.error("Error fetching budgets: ", error));
     }, []);
+
+    useEffect(() => {
+        const calculateTotals = () => {
+            const selectedMonthIncomes = monthlyIncomeData[selectedMonth] || [];
+            const selectedMonthExpenses = monthlySpendingData[selectedMonth] || [];
+
+            const totalIncome = selectedMonthIncomes.reduce((acc, income) => acc + income.amount, 0);
+            const totalExpenses = selectedMonthExpenses.reduce((acc, expense) => acc + expense.amount, 0);
+
+            setTotalIncome(totalIncome);
+            setTotalExpenses(totalExpenses);
+            setNetSavings(totalIncome - totalExpenses);
+        };
+
+        if (selectedMonth) {
+            calculateTotals();
+        }
+    }, [selectedMonth, monthlySpendingData, monthlyIncomeData]);
 
     const groupDataByMonth = (data) => {
         const groupedData = {};
         data.forEach(item => {
-            const [year, month, day] = item.date.split('-').map(num => parseInt(num, 10));
-            const monthYearKey = new Date(year, month - 1, day).toLocaleString('default', { month: 'long', year: 'numeric' });
+            const date = new Date(item.date);
+            const sortableMonthYearKey = `${date.getFullYear()}-${date.getMonth() + 1}`;
+            const monthYearKey = date.toLocaleString('default', { month: 'long', year: 'numeric' });
     
-            if (!groupedData[monthYearKey]) {
-                groupedData[monthYearKey] = [];
+            if (!groupedData[sortableMonthYearKey]) {
+                groupedData[sortableMonthYearKey] = { monthYearKey, data: [] };
             }
-            groupedData[monthYearKey].push(item);
+            groupedData[sortableMonthYearKey].data.push(item);
         });
-        return groupedData;
+    
+        const sortedKeys = Object.keys(groupedData).sort();
+        const sortedGroupedData = {};
+        sortedKeys.forEach(key => {
+            const { monthYearKey, data } = groupedData[key];
+            sortedGroupedData[monthYearKey] = data;
+        });
+    
+        return sortedGroupedData;
     };
+    
     
     const processDataForChart = (data) => {
         if (!data || data.length === 0) {
@@ -79,37 +113,31 @@ const MyPieChart = ({ }) => {
             }]
         };
     };
-    
-    const checkBudgetBreaches = (selectedMonthSpendingData, budgets) => {
+    const checkBudgetBreaches = (selectedMonthSpendingData, budgets, selectedMonth) => {
         const breaches = [];
-        
+
         budgets.forEach(budget => {
             const { amount, category, startDate, endDate } = budget;
             const budgetStart = new Date(startDate);
             const budgetEnd = new Date(endDate);
-    
-            const isWithinBudgetPeriod = selectedMonthSpendingData.some(spend => {
-                const spendDate = new Date(spend.date);
-                return spendDate >= budgetStart && spendDate <= budgetEnd;
-            });
-    
-            if (isWithinBudgetPeriod) {
-                const totalSpent = selectedMonthSpendingData
-                    .filter(spend => spend.category === category)
-                    .reduce((total, spend) => total + spend.amount, 0);
-    
-                const monthlyBudgetAmount = amount / ((budgetEnd.getFullYear() - budgetStart.getFullYear()) * 12 + budgetEnd.getMonth() - budgetStart.getMonth() + 1);
-                
-                if (totalSpent > monthlyBudgetAmount) {
-                    const overAmount = totalSpent - monthlyBudgetAmount;
-                    breaches.push(`You went $${overAmount.toFixed(2)} over your ${category} budget in ${selectedMonth}`);
-                }
+
+            // Pro-rate the budget amount based on the number of days in the selected month
+            const daysInBudgetPeriod = (budgetEnd - budgetStart) / (1000 * 60 * 60 * 24) + 1;
+            const daysInSelectedMonth = new Date(budgetEnd.getFullYear(), budgetEnd.getMonth() + 1, 0).getDate();
+            const proRatedAmount = amount / daysInBudgetPeriod * daysInSelectedMonth;
+
+            const totalSpentInCategory = selectedMonthSpendingData
+                .filter(spend => spend.category === category && new Date(spend.date) >= budgetStart && new Date(spend.date) <= budgetEnd)
+                .reduce((total, spend) => total + spend.amount, 0);
+
+            if (totalSpentInCategory > proRatedAmount) {
+                breaches.push(`You went over budget in ${category} by $${(totalSpentInCategory - proRatedAmount).toFixed(2)} in ${selectedMonth}`);
             }
         });
-    
-        return breaches.length > 0 ? breaches : [`You followed your budget in ${selectedMonth}!`];
-    };
 
+        return breaches.length > 0 ? breaches : [`You maintained all budgets in ${selectedMonth}.`];
+    };
+    
     const calculateExpenses = (data) => {
         const expenses = data.reduce((acc, item) => {
           if (!acc[item.category]) {
@@ -124,22 +152,8 @@ const MyPieChart = ({ }) => {
       };
       
     const expensesForSelectedMonth = calculateExpenses(monthlySpendingData[selectedMonth] || []);
-    const budgetBreaches = checkBudgetBreaches(monthlySpendingData[selectedMonth] || [], budgets);
+    const budgetBreaches = checkBudgetBreaches(monthlySpendingData[selectedMonth] || [], budgets, selectedMonth);
     const months = Object.keys(monthlySpendingData);
-
-    const [activeNav, setActiveNav] = useState('Financial Analysis'); 
-
-    const renderNavButton = (label, activeLabel) => {
-        return (
-            <button
-                className={`${styles.navButton} ${activeLabel === label ? styles.navButtonActive : ''}`}
-                onClick={() => setActiveNav(label)}
-            >
-                {label}
-            </button>
-        );
-    };
-
     const options = {
         plugins: {
           legend: {
@@ -160,6 +174,20 @@ const MyPieChart = ({ }) => {
       
       return (
         <div className={styles.appContainer}>
+          <div className={styles.summarySection}>
+            <div className={styles.summaryCard}>
+              <h3>Total Income</h3>
+              <p>${totalIncome.toFixed(2)}</p>
+            </div>
+            <div className={styles.summaryCard}>
+              <h3>Total Expenses</h3>
+              <p>-${totalExpenses.toFixed(2)}</p>
+            </div>
+            <div className={styles.summaryCard}>
+              <h3>Net Savings</h3>
+              <p>${netSavings.toFixed(2)}</p>
+            </div>
+            </div>
             <div className={styles.monthButtons}>
                 <div className={styles.monthSelector}>
                     {months.map(month => (

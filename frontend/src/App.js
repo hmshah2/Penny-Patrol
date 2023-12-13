@@ -18,7 +18,7 @@ function App() {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState('');
-  const [userId, setUserId] = useState(null); 
+  // const [userId, setUserId] = useState(null); 
   const [activeNav, setActiveNav] = useState('Financial Analysis');
 
   useEffect(() => {
@@ -36,13 +36,13 @@ function App() {
     const storedUserId = localStorage.getItem('userId');
     if (isUserSignedIn && storedUserId) {
       setSignedIn(true);
-      setUserId(storedUserId);
+      // setUserId(storedUserId);
     }
   }, []);
 
   const handleSignedIn = (userId) => {
     setSignedIn(true);
-    setUserId(userId); 
+    // setUserId(userId); 
     localStorage.setItem('signedIn', true);
     localStorage.setItem('userId', userId);  
     setShowToast(true);
@@ -53,7 +53,7 @@ function App() {
 
   const handleLogout = () => {
     setSignedIn(false);
-    setUserId(null); 
+    // setUserId(null); 
     localStorage.removeItem('signedIn');
     localStorage.removeItem('userId');
     window.location.href = '/';
@@ -110,15 +110,15 @@ function App() {
               />
               <Route 
                 path="/transactions" 
-                element={<Transaction userId={userId} />}
+                element={<Transaction/>}
               />
               <Route 
                 path="/pie-chart" 
-                element={<PieChart userId={userId} />}
+                element={<PieChart/>}
               />
             </>
           )}
-          {signedIn && <Route path="*" element={<Navigate replace to="/purchases" />} />}
+          {signedIn && <Route path="*" element={<Navigate replace to="/pie-chart" />} />}
         </Routes>
       </div>
     </BrowserRouter>
