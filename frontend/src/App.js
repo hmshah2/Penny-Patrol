@@ -21,6 +21,16 @@ function App() {
   const [toastType, setToastType] = useState('');
   const [userId, setUserId] = useState(null); 
   const [activeNav, setActiveNav] = useState('Financial Analysis');
+
+  useEffect(() => {
+    let timer;
+    if (showToast) {
+      timer = setTimeout(() => {
+        setShowToast(false);
+      }, 3000);
+    }
+    return () => clearTimeout(timer);
+  }, [showToast]);
   
   useEffect(() => {
     const isUserSignedIn = localStorage.getItem('signedIn') === 'true';
