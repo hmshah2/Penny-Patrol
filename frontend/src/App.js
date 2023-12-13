@@ -7,7 +7,6 @@ import SignupForm from './components/SignupForm/SignupForm';
 import Toast from './components/toast/toast';
 import PieChart from './components/PieChart/PieChart';
 import Header from './components/Header/Header';
-// import EmptyPage from './components/EmptyPage/EmptyPage';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import Budget from './components/Budget/Budget';
 import Transaction from './components/Transactions/Transaction';

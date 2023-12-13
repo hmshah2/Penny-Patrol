@@ -1,8 +1,11 @@
 .fullHeader {
     display: flex;
     justify-content: space-between;
+    width: 100%;
+    padding: 2vh 2vw;
+    position: relative;
+    box-sizing: border-box;
     background-color: #87c1cc;
-    padding: 2%;
 }
 
 .appHeader {
@@ -16,6 +19,7 @@
 }
 
 .appNav {
+    position: relative;
     background-color: #87c1cc;
     display: flex;
     justify-content: center;
@@ -24,16 +28,28 @@
     font-size: 40px;
 }
 
-.navButton, .navButtonActive {
-    background-color: transparent;
-    border: none;
+.navBarHidden {
+    display: none;
+}
+
+.menuItems {
+    display: none;
+}
+
+.logoutButton, .navButton, .navButtonActive {
     padding: 0.5rem 1rem;
     margin: 0 0.5rem;
     font-size: 1.25rem;
-    color: white; 
+    color: white;
+}
+
+.navButton, .navButtonActive {
+    background-color: transparent;
+    border: none;
     font-size: 60%;
     cursor: pointer;
     transition: color 0.3s ease;
+    text-decoration: none;
 }
 
 .navButton:hover {
@@ -42,41 +58,55 @@
 
 .navButtonActive {
     color: rgb(0, 0, 0);
+    text-decoration: underline;
 }
 
 .userIcon {
     float: right
 }
 
-.showLogout .logoutDropdown {
-    display: block;
-    animation: fadeIn 0.3s;
-}
-
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
-}  
-
-.userIconWrapper {
-    position: relative;
 }
 
-.logoutDropdown {
+.dropdownMenu {
     position: absolute;
-    right: 0;
-    top: 100%;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    right: -2vw;
+    top: calc(100% + 1vh);
+    background-color: #87c1cc;
     padding: 8px 12px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     z-index: 10;
+    animation: slideInFromRight 0.3s ease-out forwards;
 }
 
-.logoutDropdown button {
-    color: #007bff;
+.logoutButton {
     background: none;
     border: none;
     cursor: pointer;
+    color: red;
+}
+.logoutButton:hover {
+    color: #0065d2;
+}
+
+@keyframes slideInFromRight {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .navItems {
+        display: none;
+    }
+    .menuItems {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 }
