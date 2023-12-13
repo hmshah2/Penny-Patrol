@@ -85,6 +85,7 @@
 
 .chartSection {
   flex: 70%;
+  min-width: 200px;
 }
 
 .monthButtons {
@@ -197,7 +198,7 @@ ul {
 }
 
 .summaryCard {
-  flex-grow: 1;
+  width: 25%;
   text-align: center;
   padding: 10px;
   background-color: white;
@@ -213,4 +214,21 @@ ul {
 .summaryCard p {
   font-size: 1.5rem;
   font-weight: bold;
+}
+
+
+@media screen and (max-width: 768px) {
+  .summaryCard p {
+    font-size: 1rem;
+  }
+  .summaryCard h3 {
+    font-size: 1.2rem;
+  }
+  .summarySection {
+    padding: 10px;
+  }
+  .appMain {
+    flex-direction: column-reverse;
+    height: fit-content;
+  }
 }
