@@ -68,7 +68,7 @@ function App() {
           <Route path="/" element={
             signedIn ? 
               <ProtectedRoute signedIn={signedIn}>
-                <Navigate replace to="/purchases" />
+                <Navigate replace to="/pie-chart" />
               </ProtectedRoute>
               :
               <div className='landing-page'>
