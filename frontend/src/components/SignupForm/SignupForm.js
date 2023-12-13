@@ -46,7 +46,7 @@ function SignupForm(props) {
         <div className="backdrop" onClick={onBackdropClick}></div>
         <div className="form" onSubmit={e => handleSubmit(e)}>
           <div className="close-button" onClick={onBackdropClick}>X</div>
-          <h1>Sign Up</h1>
+          <h2>Sign Up</h2>
           <div className="form-body">
             <form>
               <div className="form-group">

@@ -58,12 +58,14 @@ function App() {
                 <Navigate replace to="/purchases" />
               </ProtectedRoute>
               :
-              <div>
-                <button onClick={() => setShowLogin(true)}>Log In</button>
+              <div className='landing-page'>
+                <h1>Welcome to Penny Patrol</h1>
+                <h3>Your BEST financial tracker.</h3>
+                <button className='login-button' onClick={() => setShowLogin(true)}>Login</button>
                 {showLogin && 
                   (showSignup ? 
                     <SignupForm 
-                      onBackdropClick={() => setShowLogin(false)} 
+                      onBackdropClick={() => {setShowLogin(false); setShowSignup(false);}} 
                       toggleSignup={() => setShowSignup(false)} 
                       onSignedIn={handleSignedIn}
                       onError={() => {

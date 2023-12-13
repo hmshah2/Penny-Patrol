@@ -2,29 +2,60 @@
   display: flex;
   flex-direction: column;
   align-items: stretch; 
+  min-height: 300px;
   height: 100vh;
+}
+
+.landing-page {
+  background-color: #87c1cc;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.landing-page h1 {
+  color: white;
+  text-align: center;
+  font-size: 3rem;
+}
+
+.landing-page h3 {
+  color: white;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.landing-page .login-button {
+  display: block;
+  margin: 0 auto;
+  margin-top: calc(3rem + 5vh);
+  padding: 10px 20px;
+  background-color: #007bff;
+  font-size: 1.5rem;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.landing-page .login-button:hover {
+  background-color: rgb(65, 149, 239)
 }
 
 .LoginForm, .SignupForm {
+  position: absolute;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 
-.LoginForm {
-  position: absolute;
+.form-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-}
-
-.SignupForm {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
 }
 
 .backdrop {
@@ -106,7 +137,7 @@
   margin-bottom: 0;
 }
 
-.form-footer .link {
+.link {
   color: #007bff;
   cursor: pointer;
 }
