@@ -13,7 +13,7 @@ const MyPieChart = () => {
     const [totalIncome, setTotalIncome] = useState(0);
     const [totalExpenses, setTotalExpenses] = useState(0);
     const [netSavings, setNetSavings] = useState(0);
-    const [budgets, setBudgets] = useState([]);
+    // const [budgets, setBudgets] = useState([]);
     const [spendings2, setSpendings2] = useState([]);
 
     useEffect(() => {
@@ -122,47 +122,47 @@ const MyPieChart = () => {
             }]
         };
     };
-    const checkBudgetBreaches = (selectedMonthSpendingData, budgets, selectedMonth) => {
-        const breaches = [];
+    // const checkBudgetBreaches = (selectedMonthSpendingData, budgets, selectedMonth) => {
+    //     const breaches = [];
 
-        budgets.forEach(budget => {
-            // const { amount, category, startDate, endDate } = budget;
-            // const budgetStart = new Date(startDate);
-            // const budgetEnd = new Date(endDate);
+    //     budgets.forEach(budget => {
+    //         // const { amount, category, startDate, endDate } = budget;
+    //         // const budgetStart = new Date(startDate);
+    //         // const budgetEnd = new Date(endDate);
 
-            // // Pro-rate the budget amount based on the number of days in the selected month
-            // const daysInBudgetPeriod = (budgetEnd - budgetStart) / (1000 * 60 * 60 * 24) + 1;
-            // const daysInSelectedMonth = new Date(budgetEnd.getFullYear(), budgetEnd.getMonth() + 1, 0).getDate();
-            // const proRatedAmount = amount / daysInBudgetPeriod * daysInSelectedMonth;
+    //         // // Pro-rate the budget amount based on the number of days in the selected month
+    //         // const daysInBudgetPeriod = (budgetEnd - budgetStart) / (1000 * 60 * 60 * 24) + 1;
+    //         // const daysInSelectedMonth = new Date(budgetEnd.getFullYear(), budgetEnd.getMonth() + 1, 0).getDate();
+    //         // const proRatedAmount = amount / daysInBudgetPeriod * daysInSelectedMonth;
 
-            // const totalSpentInCategory = selectedMonthSpendingData
-            //     .filter(spend => spend.category === category && new Date(spend.date) >= budgetStart && new Date(spend.date) <= budgetEnd)
-            //     .reduce((total, spend) => total + spend.amount, 0);
+    //         // const totalSpentInCategory = selectedMonthSpendingData
+    //         //     .filter(spend => spend.category === category && new Date(spend.date) >= budgetStart && new Date(spend.date) <= budgetEnd)
+    //         //     .reduce((total, spend) => total + spend.amount, 0);
 
-            // if (totalSpentInCategory > proRatedAmount) {
-            //     breaches.push(`You went over budget in ${category} by $${(totalSpentInCategory - proRatedAmount).toFixed(2)} in ${selectedMonth}`);
-            // }
+    //         // if (totalSpentInCategory > proRatedAmount) {
+    //         //     breaches.push(`You went over budget in ${category} by $${(totalSpentInCategory - proRatedAmount).toFixed(2)} in ${selectedMonth}`);
+    //         // }
 
-            const [year, month] = selectedMonth.split('-').map(Number);
-            const startOfMonth = new Date(year, month - 1, 1);
-            const endOfMonth = new Date(year, month, 0);
+    //         const [year, month] = selectedMonth.split('-').map(Number);
+    //         const startOfMonth = new Date(year, month - 1, 1);
+    //         const endOfMonth = new Date(year, month, 0);
             
-            // Check if the budget is in the selected month
-            const budgetStart = new Date(budget.startDate);
-            const budgetEnd = new Date(budget.endDate);
-            const isBudgetInSelectedMonth = startOfMonth <= budgetEnd && endOfMonth >= budgetStart;
+    //         // Check if the budget is in the selected month
+    //         const budgetStart = new Date(budget.startDate);
+    //         const budgetEnd = new Date(budget.endDate);
+    //         const isBudgetInSelectedMonth = startOfMonth <= budgetEnd && endOfMonth >= budgetStart;
             
-            if (isBudgetInSelectedMonth) {
-                const remainingBudget = calculateRemainingBudget(budget);
-                if (remainingBudget < 0) {
-                    breaches.push(`You went over budget by $${Math.abs(remainingBudget).toFixed(2)} in ${selectedMonth}`);
-                }
-            }
+    //         if (isBudgetInSelectedMonth) {
+    //             const remainingBudget = calculateRemainingBudget(budget);
+    //             if (remainingBudget < 0) {
+    //                 breaches.push(`You went over budget by $${Math.abs(remainingBudget).toFixed(2)} in ${selectedMonth}`);
+    //             }
+    //         }
             
-        });
+    //     });
 
-        return breaches.length > 0 ? breaches : [`You maintained all budgets in ${selectedMonth}.`];
-    };
+    //     return breaches.length > 0 ? breaches : [`You maintained all budgets in ${selectedMonth}.`];
+    // };
 
     const calculateRemainingBudget = (budget) => {
         // Ensure budget amount is parsed as a number
