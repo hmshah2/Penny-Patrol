@@ -7,10 +7,10 @@ import SignupForm from './components/SignupForm/SignupForm';
 import Toast from './components/toast/toast';
 import PieChart from './components/PieChart/PieChart';
 import Header from './components/Header/Header';
-import EmptyPage from './components/EmptyPage/EmptyPage';
+// import EmptyPage from './components/EmptyPage/EmptyPage';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import Budget from './components/Budget/Budget';
-import Transaction from './components/Transactions/transactions';
+import Transaction from './components/Transactions/Transaction';
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -21,20 +21,21 @@ function App() {
   const [toastType, setToastType] = useState('');
   const [userId, setUserId] = useState(null); 
   const [activeNav, setActiveNav] = useState('Financial Analysis');
-
+  
   useEffect(() => {
-    let timer;
-    if (showToast) {
-      timer = setTimeout(() => {
-        setShowToast(false);
-      }, 3000);
+    const isUserSignedIn = localStorage.getItem('signedIn') === 'true';
+    const storedUserId = localStorage.getItem('userId');
+    if (isUserSignedIn && storedUserId) {
+      setSignedIn(true);
+      setUserId(storedUserId);
     }
-    return () => clearTimeout(timer);
-  }, [showToast]);
+  }, []);
 
   const handleSignedIn = (userId) => {
     setSignedIn(true);
     setUserId(userId); 
+    localStorage.setItem('signedIn', true);
+    localStorage.setItem('userId', userId);  
     setShowToast(true);
     setToastType('success');
     setToastMessage('Login success!');
@@ -44,6 +45,8 @@ function App() {
   const handleLogout = () => {
     setSignedIn(false);
     setUserId(null); 
+    localStorage.removeItem('signedIn');
+    localStorage.removeItem('userId');
     window.location.href = '/';
   };
 
@@ -97,7 +100,7 @@ function App() {
                 element={<Budget title="Budget" />}
               />
               <Route 
-                path="/spending-log" 
+                path="/transactions" 
                 element={<Transaction userId={userId} />}
               />
               <Route 
