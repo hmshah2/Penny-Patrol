@@ -22,11 +22,13 @@ const Budget = () => {
     const fetchBudgets = useCallback(async () => {
         try {
             const response = await axios.get('http://localhost:4000/api/budgets');
-            setBudgets(response.data.data.map(budget => ({
+            const sortedBudgets = response.data.data.map(budget => ({
                 ...budget,
                 startDate: formatDate(budget.startDate),
                 endDate: formatDate(budget.endDate)
-            })));
+            }))
+            .sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+            setBudgets(sortedBudgets);
         } catch (error) {
             console.error('Error fetching budgets:', error);
         }
@@ -139,74 +141,79 @@ const Budget = () => {
 
     return (
         <div className={styles.container}>
-            <h2>Budgets</h2>
-            <form onSubmit={handleSubmit} className={styles.form}>
-                <div className={styles.formGroup}>
-                    <label htmlFor="amount" className={styles.label}>Amount:</label>
-                    <input
-                        type="number"
-                        name="amount"
-                        id="amount"
-                        value={currentBudget.amount}
-                        onChange={handleInputChange}
-                        className={styles.inputField}
-                        min="0"
-                    />
-                </div>
-                <div className={styles.formGroup}>
-                    <label htmlFor="startDate" className={styles.label}>Start Date:</label>
-                    <input
-                        type="date"
-                        name="startDate"
-                        id="startDate"
-                        value={currentBudget.startDate}
-                        onChange={handleInputChange}
-                        className={styles.inputField}
-                    />
-                </div>
-                <div className={styles.formGroup}>
-                    <label htmlFor="endDate" className={styles.label}>End Date:</label>
-                    <input
-                        type="date"
-                        name="endDate"
-                        id="endDate"
-                        value={currentBudget.endDate}
-                        onChange={handleInputChange}
-                        className={styles.inputField}
-                    />
-                </div>
-                <div className={styles.buttonGroup}>
-                    <button type="submit" className={styles.submitButton}>
-                        {editing ? 'Update' : 'Add'} Budget
-                    </button>
-                    {editing && (
-                        <button onClick={handleCancelEdit} className={styles.cancelButton}>
-                            Cancel Edit
+            <div className={styles.formContainer}>
+                <h2>Budgets</h2>
+                <form onSubmit={handleSubmit} className={styles.form}>
+                    <div className={styles.formGroup}>
+                        <label htmlFor="amount" className={styles.label}>Amount:</label>
+                        <input
+                            type="number"
+                            name="amount"
+                            id="amount"
+                            value={currentBudget.amount}
+                            onChange={handleInputChange}
+                            className={styles.inputField}
+                            min="0"
+                        />
+                    </div>
+                    <div className={styles.formGroup}>
+                        <label htmlFor="startDate" className={styles.label}>Start Date:</label>
+                        <input
+                            type="date"
+                            name="startDate"
+                            id="startDate"
+                            value={currentBudget.startDate}
+                            onChange={handleInputChange}
+                            className={styles.inputField}
+                        />
+                    </div>
+                    <div className={styles.formGroup}>
+                        <label htmlFor="endDate" className={styles.label}>End Date:</label>
+                        <input
+                            type="date"
+                            name="endDate"
+                            id="endDate"
+                            value={currentBudget.endDate}
+                            onChange={handleInputChange}
+                            className={styles.inputField}
+                        />
+                    </div>
+                    <div className={styles.buttonGroup}>
+                        <button type="submit" className={styles.submitButton}>
+                            {editing ? 'Update' : 'Add'} Budget
                         </button>
-                    )}
-                </div>
-            </form>
+                        {editing && (
+                            <button onClick={handleCancelEdit} className={styles.cancelButton}>
+                                Cancel Edit
+                            </button>
+                        )}
+                    </div>
+                </form>
 
-            <ul className={styles.budgetList}>
-                {budgets.map((budget) => (
-                    <li key={budget._id} className={styles.budgetItem}>
-                        <div className={styles.itemDetails}>
-                            <span className={styles.budgetLabel}>
-                                Amount: ${budget.amount}<br />
-                                Start: {budget.startDate}<br />
-                                End: {budget.endDate}
-                            </span>
-                            <span className={styles.remainingBudget}>
-                                Remaining: ${calculateRemainingBudget(budget).toFixed(2)}
-                            </span>
-                            <div className={styles.buttonGroup}>
-                                <button onClick={() => handleEdit(budget)} className={styles.editButton}>Edit</button>
-                                <button onClick={() => handleDelete(budget._id)} className={styles.deleteButton}>Delete</button>
+            </div>
+            <div className={styles.budgetListContainer}>
+                <ul className={styles.budgetList}>
+                    {budgets.map((budget) => (
+                        <div key={budget._id} className={styles.budgetItem}>
+                            <div className={styles.itemDetails}>
+                                <span className={styles.budgetLabel}>
+                                    Amount: ${budget.amount}<br />
+                                    Start: {budget.startDate}<br />
+                                    End: {budget.endDate}
+                                </span>
+                                <span className={styles.remainingBudget}>
+                                    Remaining: ${calculateRemainingBudget(budget).toFixed(2)}
+                                </span>
+                                <div className={styles.buttonGroup}>
+                                    <button onClick={() => handleEdit(budget)} className={styles.editButton}>Edit</button>
+                                    <button onClick={() => handleDelete(budget._id)} className={styles.deleteButton}>Delete</button>
+                                </div>
                             </div>
                         </div>
-                    </li>
-                ))}
-            </ul>
+                    ))}
+                </ul>
+            </div>
+            
         </div>
     );
 };
