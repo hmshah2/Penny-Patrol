@@ -199,7 +199,7 @@ const MyPieChart = () => {
       };
       
     const expensesForSelectedMonth = calculateExpenses(monthlySpendingData[selectedMonth] || []);
-    const budgetBreaches = checkBudgetBreaches(monthlySpendingData[selectedMonth] || [], budgets, selectedMonth);
+    // const budgetBreaches = checkBudgetBreaches(monthlySpendingData[selectedMonth] || [], budgets, selectedMonth);
     const months = Object.keys(monthlySpendingData);
     const options = {
         plugins: {

@@ -218,7 +218,7 @@ const Transaction = () => {
         </div>
       </div>
       <div className="form-container">
-        <div className={`transaction-form-container ${currentTab == 'transactions' ? 'active' : ''}`}>
+        <div className={`transaction-form-container ${currentTab === 'transactions' ? 'active' : ''}`}>
           <form className="transaction-form" onSubmit={handleSubmit}>
             <h2>Add Transaction</h2>
             <input
@@ -289,7 +289,7 @@ const Transaction = () => {
       </div>  
   
       <div className="transaction-lists-container">
-      <div className={`transactions-list ${currentTab == 'transactions' ? 'active' : ''}`}>
+      <div className={`transactions-list ${currentTab === 'transactions' ? 'active' : ''}`}>
         <h2>Transactions</h2>
         {Object.keys(transactionsByMonth).map((monthYear) => (
           <div key={monthYear}>
