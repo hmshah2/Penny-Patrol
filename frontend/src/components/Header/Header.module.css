@@ -1,0 +1,130 @@
+.fullHeader {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 2vh 2vw;
+    position: relative;
+    box-sizing: border-box;
+    background-color: #87c1cc;
+    position: fixed;
+    top: 0;
+}
+
+.headerPlaceholder {
+    height: calc(2vh + 5.2rem);
+}
+
+.appHeader {
+    background-color: #87c1cc;
+    padding: 1rem 0;
+    color: white;
+    text-align: left;
+    font-size: 2rem;
+    margin: 0;
+    font-weight: bold;
+}
+
+.appNav {
+    position: relative;
+    background-color: #87c1cc;
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem 0;
+    text-align: right;
+    font-size: 40px;
+}
+
+.navBarHidden {
+    display: none;
+}
+
+.menuItems {
+    display: none;
+}
+
+.logoutButton, .navButton, .navButtonActive {
+    padding: 0.5rem 1rem;
+    margin: 0 0.5rem;
+    font-size: 1.25rem;
+    color: white;
+}
+
+.navButton, .navButtonActive {
+    background-color: transparent;
+    border: none;
+    font-size: 60%;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    text-decoration: none;
+}
+
+.navButton:hover {
+    color: #0065d2;
+}
+
+.navButtonActive {
+    color: rgb(0, 0, 0);
+    text-decoration: underline;
+}
+
+.userIcon {
+    float: right
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.dropdownMenu {
+    position: absolute;
+    right: -2vw;
+    top: calc(100% + 1vh);
+    background-color: #87c1cc;
+    padding: 8px 12px;
+    z-index: 10;
+    animation: slideInFromRight 0.3s ease-out forwards;
+}
+
+.logoutButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: red;
+}
+.logoutButton:hover {
+    color: #0065d2;
+}
+
+@keyframes slideInFromRight {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .navItems {
+        display: none;
+    }
+    .menuItems {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .menuItems a {
+        margin: 0.5rem 0;
+        font-size: 1.1rem;
+    }
+    .logoutButton, .navButton, .navButtonActive {
+        padding: 0.2rem 0.8rem;
+        margin: 0 0.5rem;
+        font-size: 1rem;
+    }
+}

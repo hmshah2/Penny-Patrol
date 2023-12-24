@@ -1,0 +1,202 @@
+.transaction-form-container, .income-form-container {
+  border-radius: 8px;
+  max-width: 40%;
+  margin: 0;
+  flex-grow: 1; 
+}
+
+.transaction-form, .income-form {
+  display: flex;
+  flex-direction: column;
+  background-color: #87c1cc;
+  padding: 8%;
+  margin-bottom: 0;
+  border-radius: 10px;
+}
+
+.transaction-form h2, .income-form h2 {
+  color: white;
+  text-align: center;
+  margin-bottom: 4%;
+}
+
+.transaction-form input,
+.transaction-form select,
+.transaction-form button,
+.transaction-form textarea,
+.income-form input,
+.income-form select,
+.income-form button,
+.income-form textarea {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 2px solid #CBD6E2;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.transaction-form input::placeholder, .income-form input::placeholder {
+  color: #9DA9B9;
+}
+
+.transaction-form button, .income-form button {
+  background-color: #FFF;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  border-radius: 10px;
+}
+
+.transaction-form button:hover, .income-form button:hover {
+  background-color: #333;
+  color: #FFF;
+}
+
+.transactions-list {
+  background-color: #87c1cc;
+  border-radius: 8px;
+  padding: 3%;
+  padding-top: 1%;
+  margin-top: 0;
+  text-align: center;
+  align-items: center;
+  align-content: center;
+  color: white;
+  width: 40%;
+  box-sizing: border-box;
+  min-width: 500px;
+}
+
+.transaction-item {
+  background-color: #fff; 
+  margin-bottom: 1em;
+  padding: 1em;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+  display: grid;
+  grid-template-columns: repeat(4, 1fr) auto; 
+  gap: 1em;
+  align-items: center;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.delete-button:hover {
+  background-color: #d32f2f; 
+}
+
+.transactions-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+}
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: 5vw;
+  margin-top: 7vh;
+}
+
+.transaction-lists-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 5vw;
+  margin-bottom: 3rem;
+}
+
+.tabs-container {
+  display: none;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  gap: 5vw;
+  margin-top: 10vh;
+}
+
+.tab {
+  padding: 10px;
+  border: 2px solid #CBD6E2;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  width: 10rem;
+  text-align: center;
+}
+
+.tab:hover {
+  color: #87c1cc;
+}
+
+.tab.active {
+  background-color: #87c1cc;
+  color: #FFF;
+}
+
+@media screen and (max-width: 1100px) {
+  .form-container {
+    flex-direction: column;
+    margin-top: 0;
+  }
+  .transaction-form-container, .income-form-container {
+    display: none;
+    width: 70%;
+    max-width: 100%;
+  }
+  .transaction-form-container.active, .income-form-container.active {
+    display: block;
+  }
+
+  .transactions-list {
+    display: none;
+    width: 70%;
+    font-size: 0.9rem;
+    min-width: 0;
+  }
+  .transactions-list.active {
+    display: block;
+  }
+
+  .transaction-item {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+
+  .tabs-container {
+    display: block;
+  }
+
+  .tabs {
+    margin-top: 2rem;
+    margin-bottom: -1rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .income-form-container, .transaction-form-container {
+    width: 80%;
+  }
+  .transactions-list {
+    width: 80%;
+  }
+  .tab {
+    width: 5.5rem;
+  }
+}
